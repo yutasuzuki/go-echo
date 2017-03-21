@@ -1,0 +1,47 @@
+{{define "index"}}
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+  <meta charset='UTF-8'>
+  <title>HEAUP</title>
+</head>
+<body>
+<h1 class=''>HEAUP{{.}}</h1>
+<div id='content'></div>
+<div>
+NAME : <input type="text" id="js-store-name"><br>
+MAIL : <input type="text" id="js-store-mail"><br>
+PASS : <input type="text" id="js-store-password"><br>
+<button id="js-submit">submit</button>
+</div>
+<script>
+  const btn = document.getElementById("js-submit");
+  btn.addEventListener("click", () => {
+    const name = document.getElementById("js-store-name").value;
+    const mail = document.getElementById("js-store-mail").value;
+    const password = document.getElementById("js-store-password").value;
+    fetch(`/create-store`, {
+      method: 'POST',
+      body: JSON.stringify({
+        name: name,
+        mail: mail,
+        password: password
+      })
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      console.log(data);
+      document.getElementById('content').innerHTML = `
+        ID：${data.Value.ID}<br>
+        name：${data.Value.name}<br>
+        Mail：${data.Value.mail}<br>
+        PASSWORD：${data.Value.password}<br>
+        作成日：${data.Value.CreatedAt}<br>
+        更新日：${data.Value.UpdatedAt}<br>`;
+      document.getElementById("js-store-name").value = '';
+    });
+  });
+</script>
+</body>
+</html>
+{{end}}
