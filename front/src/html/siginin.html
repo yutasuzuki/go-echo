@@ -1,0 +1,44 @@
+{{define "signin"}}
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+  <meta charset='UTF-8'>
+  <title>sign in</title>
+</head>
+<body>
+<div id="content"></div>
+MAIL : <input type="text" id="js-store-mail"><br>
+PASS : <input type="text" id="js-store-password"><br>
+<button id="js-signup">sign up</button>
+<script>
+  const signup = document.getElementById("js-signup");
+  signup.addEventListener("click", () => {
+    const mail = document.getElementById("js-store-mail").value;
+    const password = document.getElementById("js-store-password").value;
+    fetch(`/signin`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        mail: mail,
+        password: password
+      })
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      console.log(data);
+      document.getElementById('content').innerHTML = `
+      ID：${data.Value.ID}<br>
+      name：${data.Value.name}<br>
+      Mail：${data.Value.mail}<br>
+      PASSWORD：${data.Value.password}<br>
+      作成日：${data.Value.CreatedAt}<br>
+      更新日：${data.Value.UpdatedAt}<br>`;
+    });
+  });
+</script>
+</body>
+</html>
+{{end}}

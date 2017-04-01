@@ -1,0 +1,14 @@
+{
+  "use": [
+    "postcss-import",
+    "postcss-simple-vars",
+    "postcss-nested",
+    "autoprefixer",
+    "cssnano"
+  ],
+  "input": "./src/css/*.css",
+  "output": "./dist/css/",
+  "autoprefixer": {
+    "browsers": "last 4 versions"
+  }
+}
